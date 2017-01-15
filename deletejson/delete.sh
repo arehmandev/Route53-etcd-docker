@@ -27,7 +27,7 @@ clustersize=$(expr $(cat newetcdips.txt | wc -l) + 1)
 for (( i = $ipoverdraft; i < $recordnum; i++ )); do
   cat delete.json.template > delete.json
   etcdrec=$(expr $i + 4)
-  etcdip=$(aws route53 list-resource-record-sets --hosted-zone-id $hostedzone | jq .ResourceRecordSets[$etcdrec].ResourceRecords[].Value)
+  etcdip=$(aws route53 list-resource-record-sets --hosted-zone-id $hostedzone | jq .ResourceRecordSets[$etcdrec].ResourceRecords[].Value | tr -d "\"")
   etcdnum=etcd$i
   sed -i "s/etcdnum/$etcdnum/g" delete.json
   sed -i "s/etcdip/$etcdip/g" delete.json
