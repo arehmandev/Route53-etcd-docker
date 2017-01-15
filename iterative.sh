@@ -32,4 +32,4 @@ aws route53 change-resource-record-sets \
 # $2 = hosted-zone-id
 
 #Example
-#bash iterative.sh abdul.com kubecluster-05 Z2ZYS3N4HRA09T
+#bash iterative.sh abdul.com Z2ZYS3N4HRA09T
