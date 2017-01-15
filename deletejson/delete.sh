@@ -16,6 +16,13 @@ getip > newetcdips.txt
 
 hostedzone=$2
 tldname=$1
+realrecordnum=$(aws route53 list-resource-record-sets --hosted-zone-id $hostedzone | jq .ResourceRecordSets[].Type | wc -l)
+realclustersize=$(cat newetcdips.txt | wc -l)
+
+if [[ $realclustersize == $realrecordnum ]]; then
+    echo "DNS is correct"
+    exit
+fi
 
 recordnum=$(expr $(aws route53 list-resource-record-sets --hosted-zone-id $hostedzone | jq .ResourceRecordSets[].Type | wc -l) - 1)
 clustersize=$(expr 1 + $(cat newetcdips.txt | wc -l))
