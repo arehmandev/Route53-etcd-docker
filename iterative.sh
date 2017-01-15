@@ -14,23 +14,20 @@ function getip {
 
 getip > newetcdips.txt
 
-clustersize=$(expr $(cat newetcdips.txt | wc -l) + 1)
-echo "etcd1" > oldetcdips.txt
+realclustersize=$(cat newetcdips.txt | wc -l)
 
-for (( i = 2; i < $clustersize; i++ )); do
-          echo "etcd$i" >> oldetcdips.txt
-done
-
-if [[ $clustersize = 3 ]]; then
+if [[ $realclustersize = 3 ]]; then
   route53json=3-etcdroute53.json
-elif [[ $clustersize = 5 ]]; then
+elif [[ $realclustersize = 5 ]]; then
   route53json=5-etcdroute53.json
-elif [[ $clustersize = 7 ]]; then
+elif [[ $realclustersize = 7 ]]; then
   route53json=7-etcdroute53.json
 fi
 
-for (( i = 1; i < 4; i++ )); do
-          oldip=$(sed -n $i\p oldetcdips.txt)
+clustersize=$(expr $(cat newetcdips.txt | wc -l) + 1)
+
+for (( i = 1; i < $clustersize; i++ )); do
+          oldip=etcdip$i
           newip=$(sed -n $i\p newetcdips.txt)
           sed -i "s/${oldip}/${newip}/g" $route53json;
 done
