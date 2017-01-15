@@ -10,10 +10,11 @@
   - EC2 readonly permissions
 - This is primary my PoC to be used with tack - https://github.com/kz8s/tack/blob/master/modules/route53/route53.tf
 
-## Example:
-
+## Example format:
 docker run arehmandev/route53etcd TLDNAME HOSTEDZONE-ID
 
-e.g.
+e.g:
+```
 
 docker run arehmandev/route53etcd abs.com Z2ZYS3N4HRA09T
+```
