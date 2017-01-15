@@ -14,23 +14,37 @@ function getip {
 
 getip > newetcdips.txt
 
+clustersize=$(expr $(cat newetcdips.txt | wc -l) + 1)
+echo "etcd1" > oldetcdips.txt
+
+for (( i = 2; i < $clustersize; i++ )); do
+          echo "etcd$i" >> oldetcdips.txt
+done
+
+if [[ $clustersize = 3 ]]; then
+  route53json=3-etcdroute53.json
+elif [[ $clustersize = 5 ]]; then
+  route53json=5-etcdroute53.json
+elif [[ $clustersize = 7 ]]; then
+  route53json=7-etcdroute53.json
+fi
+
 for (( i = 1; i < 4; i++ )); do
           oldip=$(sed -n $i\p oldetcdips.txt)
           newip=$(sed -n $i\p newetcdips.txt)
-          sed -i "s/${oldip}/${newip}/g" etcdroute53.json;
+          sed -i "s/${oldip}/${newip}/g" $route53json;
 done
 
 sed -i "s/tldname/$1/g" etcdroute53.json
 
 aws route53 change-resource-record-sets \
                --hosted-zone-id $2 \
-               --change-batch file://etcdroute53.json
+               --change-batch file://$route53json
 
 
 #USAGE
 # $1 = TLD name
-# $2 = asgname
-# $3 = hosted-zone-id
+# $2 = hosted-zone-id
 
 #Example
-#bash iterative.sh abdul.com kubecluster-05 Z2ZYS3N4HRA09T
+#bash iterative.sh abdul.com Z2ZYS3N4HRA09T
