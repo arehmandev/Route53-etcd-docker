@@ -4,6 +4,44 @@
     {
       "Action": "UPSERT",
       "ResourceRecordSet": {
+        "Name": "_etcd-client._tcp.tldname",
+        "Type": "A",
+        "TTL": 30,
+        "ResourceRecords": [
+          {
+            "Value": "0 0 2379 etcd1.tldname"
+          },
+          {
+            "Value": "0 0 2379 etcd2.tldname"
+          },
+          {
+            "Value": "0 0 2379 etcd3.tldname"
+          }
+        ]
+      }
+    },
+    {
+      "Action": "UPSERT",
+      "ResourceRecordSet": {
+        "Name": "_etcd-server-ssl._tcp.tldname",
+        "Type": "A",
+        "TTL": 30,
+        "ResourceRecords": [
+          {
+            "Value": "0 0 2380 etcd1.tldname"
+          },
+          {
+            "Value": "0 0 2380 etcd2.tldname"
+          },
+          {
+            "Value": "0 0 2380 etcd3.tldname"
+          }
+        ]
+      }
+    },
+    {
+      "Action": "UPSERT",
+      "ResourceRecordSet": {
         "Name": "etcd.tldname",
         "Type": "A",
         "TTL": 30,
