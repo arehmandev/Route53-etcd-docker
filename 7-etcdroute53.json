@@ -67,7 +67,7 @@
       "Action": "UPSERT",
       "ResourceRecordSet": {
         "Name": "etcd.tldname",
-        "Type": "SRV",
+        "Type": "A",
         "TTL": 30,
         "ResourceRecords": [
           {
