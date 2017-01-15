@@ -20,7 +20,7 @@ tldname=$1
 recordnum=$(aws route53 list-resource-record-sets --hosted-zone-id $hostedzone | jq .ResourceRecordSets[].Type | wc -l)
 
 for (( i = 0; i < $recordnum; i++ )); do
-  cat delete.json.template > delete.json
+  cat delete.json.template > delete$i.json
   etcdpos=$(expr $i - 4)
   dnsname=$(aws route53 list-resource-record-sets --hosted-zone-id $hostedzone | jq .ResourceRecordSets[$i].Name | tr -d "\"" | sed -e 's/\.$//')
   etcdip=$(aws route53 list-resource-record-sets --hosted-zone-id $hostedzone | jq .ResourceRecordSets[$i].ResourceRecords[].Value) | tr -d "\""
