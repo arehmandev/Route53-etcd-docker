@@ -18,7 +18,7 @@ hostedzone=$2
 tldname=$1
 
 recordnum=$(aws route53 list-resource-record-sets --hosted-zone-id $hostedzone | jq .ResourceRecordSets[].Type | wc -l)
-clustersize=$(cat newetcdips.txt | wc -l)
+clustersize=$(expr$(cat newetcdips.txt | wc -l) + 6)
 
 #iterations=$(expr $(clustersize) + 6)
 
