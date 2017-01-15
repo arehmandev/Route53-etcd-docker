@@ -4,7 +4,7 @@
     {
       "Action": "DELETE",
       "ResourceRecordSet": {
-        "Name": "etcdnum.abdul.com",
+        "Name": "etcdnum.tldname",
         "Type": "A",
         "TTL": 30,
         "ResourceRecords": [

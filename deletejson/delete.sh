@@ -31,6 +31,7 @@ for (( i = $ipoverdraft; i < $clustersize; i++ )); do
   etcdnum=etcd$i
   sed -i "s/etcdnum/$etcdnum/g" delete.json
   sed -i "s/etcd/$etcdip/g" delete.json
+  sed -i "s/tldname/$1/g" delete.json
 done
 # Usage: $0 tld hosted-zone-id
 # requirements: jq, awscli, curl
