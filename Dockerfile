@@ -7,7 +7,8 @@ RUN apk add --update \
     python-dev \
     py2-pip \
     curl \
-    bash
+    bash \
+    jq
 
 RUN pip install awscli
 RUN chmod u+x /iterative.sh
