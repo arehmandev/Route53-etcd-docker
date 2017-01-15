@@ -29,7 +29,7 @@ for (( i = 0; i < $recordnum; i++ )); do
     etcdpos=$($dnsname | sed 's/[^0-9]*//g')
     echo "Found etcd$etcdpos.$tldname as an A record"
     sed -i "s/etcdnum/etcd$etcdpos/g" delete$i.json
-    sed -i "s/etcdip/$($etcdip | tr -d "\"")/g" delete$i.json
+    sed -i "s/etcdip/$etcdip/g" delete$i.json
     sed -i "s/tldname/$tldname/g" delete$i.json
     aws route53 change-resource-record-sets --hosted-zone-id $2 --change-batch file://delete$i.json
   else
