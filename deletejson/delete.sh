@@ -17,16 +17,16 @@ getip > newetcdips.txt
 hostedzone=$2
 tldname=$1
 
-recordnum=$(aws route53 list-resource-record-sets --hosted-zone-id $hostedzone | jq .ResourceRecordSets[].Type | wc -l)
+recordnum=$(expr $(aws route53 list-resource-record-sets --hosted-zone-id $hostedzone | jq .ResourceRecordSets[].Type | wc -l) - 1)
 clustersize=$(cat newetcdips.txt | wc -l)
 
 
-for (( i = 5; i < $recordnum; i++ )); do
-  etcdpos=$(expr $i - 4)
+for (( i = 0; i < $recordnum; i++ )); do
   dnsname=$(aws route53 list-resource-record-sets --hosted-zone-id $hostedzone | jq .ResourceRecordSets[$i].Name | tr -d "\"" | sed -e 's/\.$//')
   etcdip=$(aws route53 list-resource-record-sets --hosted-zone-id $hostedzone | jq .ResourceRecordSets[$i].ResourceRecords[].Value | tr -d "\"")
-  if [[ $dnsname = "etcd$etcdpos.$tldname" ]]; then
+  if [[ $dnsname =~ [$clustersize-$recordnum] ]]; then
     cat delete.json.template > delete$i.json
+    etcdpos=$(dnsname | sed 's/[^0-9]*//g')
     echo "Found etcd$etcdpos.$tldname as an A record"
     sed -i "s/etcdnum/etcd$etcdpos/g" delete$i.json
     sed -i "s/etcdip/${etcdip}/g" delete$i.json
