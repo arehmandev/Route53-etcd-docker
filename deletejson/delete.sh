@@ -27,7 +27,7 @@ for (( i = 0; i < $recordnum; i++ )); do
     cat delete.json.template > delete$i.json
     echo "Found etcd$etcdpos.$tldname as an A record"
     sed -i "s/etcdnum/etcd$etcdpos/g" delete$i.json
-    sed -i "s/etcdip/$etcdip/g" delete$i.json
+    sed -i "s/etcdip/${etcdip}/g" delete$i.json
     sed -i "s/tldname/$tldname/g" delete$i.json
   else
     echo "Nvm"
