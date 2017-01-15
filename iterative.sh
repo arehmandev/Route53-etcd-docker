@@ -35,7 +35,7 @@ for (( i = 1; i < 4; i++ )); do
           sed -i "s/${oldip}/${newip}/g" $route53json;
 done
 
-sed -i "s/tldname/$1/g" etcdroute53.json
+sed -i "s/tldname/$1/g" $route53json
 
 aws route53 change-resource-record-sets \
                --hosted-zone-id $2 \
