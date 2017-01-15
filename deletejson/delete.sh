@@ -15,27 +15,18 @@ function getip {
 getip > newetcdips.txt
 
 
-hostedzone=$2
-tldname=$1
 
-realclustersize=$(cat newetcdips.txt | wc -l)
-clusterbegin=$($(expr $realclustersize + 5))
 recordnum=$(aws route53 list-resource-record-sets --hosted-zone-id Z2ZYS3N4HRA09T | jq .ResourceRecordSets[].Type | wc -l)
 
 ipoverdraft=$(expr $recordnum - $realclustersize)
 echo "ipoverdraft = $ipoverdraft"
 
-for (( i = $clusterbegin; i < $recordnum; i++ )); do
-
-  dnsname=$(aws route53 list-resource-record-sets --hosted-zone-id $hostedzone | jq .ResourceRecordSets[$i].Name | tr -d "\"" | sed -e 's/\.$//')
+for (( i = 0; i < $recordnum; i++ )); do
+  dnsname=$(aws route53 list-resource-record-sets --hosted-zone-id $hostedzone | jq .ResourceRecordSets[5].Name | tr -d "\"" | sed -e 's/\.$//')
   if [[ $dnsname == "etcd$i.$tldname" ]]; then
-    cat delete.json.template > delete.json
-    $etcdip=$(aws route53 list-resource-record-sets --hosted-zone-id $hostedzone | jq .ResourceRecordSets[$i].ResourceRecords[].Value)
-    sed -i "s/etcdnum/etcd$i/g" delete.json
-    sed -i "s/etcdip/$etcdip/g" delete.json
-    sed -i "s/tldname/$tldname/g" delete.json
+    echo "Found $i as inactive"
   else
-    echo "$(aws route53 list-resource-record-sets --hosted-zone-id $hostedzone | jq .ResourceRecordSets[$i].Name) wasn't deleted"
+    echo "Found $i as active"
   fi
 done
 
@@ -52,6 +43,6 @@ done
 #  sed -i "s/etcdip/$etcdip/g" delete.json
 #  sed -i "s/tldname/$1/g" delete.json
 #  aws route53 change-resource-record-sets --hosted-zone-id $2 --change-batch file://delete.json
-#done
+done
 # Usage: $0 tld hosted-zone-id
 # requirements: jq, awscli, curl
