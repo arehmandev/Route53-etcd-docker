@@ -24,14 +24,15 @@ echo "ipoverdraft = $ipoverdraft"
 
 clustersize=$(expr $(cat newetcdips.txt | wc -l) + 1)
 
-for (( i = $ipoverdraft; i < $clustersize; i++ )); do
+for (( i = $ipoverdraft; i < $recordnum; i++ )); do
   cat delete.json.template > delete.json
   etcdrec=$(expr $i + 4)
   etcdip=$(aws route53 list-resource-record-sets --hosted-zone-id $hostedzone | jq .ResourceRecordSets[$etcdrec].ResourceRecords[].Value)
   etcdnum=etcd$i
   sed -i "s/etcdnum/$etcdnum/g" delete.json
-  sed -i "s/etcdnum/$etcdip/g" delete.json
+  sed -i "s/etcdip/$etcdip/g" delete.json
   sed -i "s/tldname/$1/g" delete.json
+  aws route53 change-resource-record-sets --hosted-zone-id $1 --change-batch file://delete.json
 done
 # Usage: $0 tld hosted-zone-id
 # requirements: jq, awscli, curl
