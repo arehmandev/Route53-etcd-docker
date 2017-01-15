@@ -35,7 +35,7 @@ for (( i = $clusterbegin; i < $recordnum; i++ )); do
     sed -i "s/etcdip/$etcdip/g" delete.json
     sed -i "s/tldname/$tldname/g" delete.json
   else
-    echo "Number $i on the list wasnt deleted"
+    echo "$(aws route53 list-resource-record-sets --hosted-zone-id $hostedzone | jq .ResourceRecordSets[$i].Name) wasn't deleted"
   fi
 done
 
