@@ -5,7 +5,7 @@
       "Action": "UPSERT",
       "ResourceRecordSet": {
         "Name": "_etcd-client._tcp.tldname",
-        "Type": "A",
+        "Type": "SRV",
         "TTL": 30,
         "ResourceRecords": [
           {
@@ -36,7 +36,7 @@
       "Action": "UPSERT",
       "ResourceRecordSet": {
         "Name": "_etcd-server-ssl._tcp.tldname",
-        "Type": "A",
+        "Type": "SRV",
         "TTL": 30,
         "ResourceRecords": [
           {
@@ -67,7 +67,7 @@
       "Action": "UPSERT",
       "ResourceRecordSet": {
         "Name": "etcd.tldname",
-        "Type": "A",
+        "Type": "SRV",
         "TTL": 30,
         "ResourceRecords": [
           {
