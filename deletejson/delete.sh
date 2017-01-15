@@ -24,9 +24,9 @@ echo "ipoverdraft = $ipoverdraft"
 for (( i = 0; i < $recordnum; i++ )); do
   dnsname=$(aws route53 list-resource-record-sets --hosted-zone-id $hostedzone | jq .ResourceRecordSets[5].Name | tr -d "\"" | sed -e 's/\.$//')
   if [[ $dnsname == "etcd$i.$tldname" ]]; then
-    echo "Found $i as inactive"
+    echo "Found etcd$i.$tldname as an A record"
   else
-    echo "Found $i as active"
+    echo "Nvm"
   fi
 done
 
