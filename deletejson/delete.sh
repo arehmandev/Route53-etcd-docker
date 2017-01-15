@@ -32,7 +32,7 @@ for (( i = $ipoverdraft; i < $recordnum; i++ )); do
   sed -i "s/etcdnum/$etcdnum/g" delete.json
   sed -i "s/etcdip/$etcdip/g" delete.json
   sed -i "s/tldname/$1/g" delete.json
-  aws route53 change-resource-record-sets --hosted-zone-id $1 --change-batch file://delete.json
+  aws route53 change-resource-record-sets --hosted-zone-id $2 --change-batch file://delete.json
 done
 # Usage: $0 tld hosted-zone-id
 # requirements: jq, awscli, curl
