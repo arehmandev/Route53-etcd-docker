@@ -22,7 +22,7 @@ clustersize=$(cat newetcdips.txt | wc -l)
 
 #iterations=$(expr $(clustersize) + 6)
 
-for (( i = "$clustersize}"; i < $recordnum; i++ )); do
+for (( i = $clustersize; i < $recordnum; i++ )); do
   etcdpos=$(expr $i - 4)
   dnsname=$(aws route53 list-resource-record-sets --hosted-zone-id $hostedzone | jq .ResourceRecordSets[$i].Name | tr -d "\"" | sed -e 's/\.$//')
   etcdip=$(aws route53 list-resource-record-sets --hosted-zone-id $hostedzone | jq .ResourceRecordSets[$i].ResourceRecords[].Value | tr -d "\"")
