@@ -26,7 +26,7 @@ for (( i = 0; i < $recordnum; i++ )); do
   etcdip=$(aws route53 list-resource-record-sets --hosted-zone-id $hostedzone | jq .ResourceRecordSets[$i].ResourceRecords[].Value | tr -d "\"")
   if [[ $dnsname =~ [$clustersize-9] ]]; then
     cat delete.json.template > delete$i.json
-    etcdpos=$($dnsname | sed 's/[^0-9]*//g')
+    etcdpos=$(eval $($dnsname | sed 's/[^0-9]*//g'))
     echo "Found etcd$etcdpos.$tldname as an A record"
     sed -i "s/etcdnum/etcd$etcdpos/g" delete$i.json
     sed -i "s/etcdip/$etcdip/g" delete$i.json
