@@ -19,13 +19,12 @@ tldname=$1
 
 recordnum=$(aws route53 list-resource-record-sets --hosted-zone-id $hostedzone | jq .ResourceRecordSets[].Type | wc -l)
 
-ipoverdraft=$(expr $recordnum - $realclustersize)
-echo "ipoverdraft = $ipoverdraft"
-
 for (( i = 0; i < $recordnum; i++ )); do
+  cat delete.json.template > delete.json
+  etcdpos=$(expr $i - 4)
   dnsname=$(aws route53 list-resource-record-sets --hosted-zone-id $hostedzone | jq .ResourceRecordSets[$i].Name | tr -d "\"" | sed -e 's/\.$//')
-  if [[ $dnsname == "etcd$i.$tldname" ]]; then
-    echo "Found etcd$i.$tldname as an A record"
+  if [[ $dnsname == "etcd$etcdpos.$tldname" ]]; then
+    echo "Found etcd$etcdpos.$tldname as an A record"
   else
     echo "Nvm"
   fi
