@@ -30,7 +30,7 @@ for (( i = $ipoverdraft; i < $clustersize; i++ )); do
   etcdip=$(aws route53 list-resource-record-sets --hosted-zone-id $hostedzone | jq .ResourceRecordSets[$etcdrec].ResourceRecords[].Value)
   etcdnum=etcd$i
   sed -i "s/etcdnum/$etcdnum/g" delete.json
-  sed -i "s/etcd/$etcdip/g" delete.json
+  sed -i "s/etcdnum/$etcdip/g" delete.json
   sed -i "s/tldname/$1/g" delete.json
 done
 # Usage: $0 tld hosted-zone-id
