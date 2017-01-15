@@ -38,7 +38,8 @@ aws route53 change-resource-record-sets \
                --hosted-zone-id $2 \
                --change-batch file://$route53json
 
-
+echo "Finished, removing old records"
+bash deletejson/delete.sh
 
 ##
 #USAGE
