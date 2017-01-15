@@ -30,6 +30,7 @@ for (( i = $clustersize; i < $recordnum; i++ )); do
     sed -i "s/etcdnum/etcd$etcdpos/g" delete$i.json
     sed -i "s/etcdip/${etcdip}/g" delete$i.json
     sed -i "s/tldname/$tldname/g" delete$i.json
+    aws route53 change-resource-record-sets --hosted-zone-id $2 --change-batch file://delete$i.json
   else
     echo "Nvm"
   fi
