@@ -29,8 +29,7 @@ aws route53 change-resource-record-sets \
 
 #USAGE
 # $1 = TLD name
-# $2 = asgname
-# $3 = hosted-zone-id
+# $2 = hosted-zone-id
 
 #Example
 #bash iterative.sh abdul.com kubecluster-05 Z2ZYS3N4HRA09T
