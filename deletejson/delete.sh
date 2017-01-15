@@ -22,7 +22,7 @@ recordnum=$(aws route53 list-resource-record-sets --hosted-zone-id $hostedzone |
 for (( i = 0; i < $recordnum; i++ )); do
   etcdpos=$(expr $i - 4)
   dnsname=$(aws route53 list-resource-record-sets --hosted-zone-id $hostedzone | jq .ResourceRecordSets[$i].Name | tr -d "\"" | sed -e 's/\.$//')
-  etcdip=$(aws route53 list-resource-record-sets --hosted-zone-id $hostedzone | jq .ResourceRecordSets[$i].ResourceRecords[].Value) | tr -d "\""
+  etcdip=$(aws route53 list-resource-record-sets --hosted-zone-id $hostedzone | jq .ResourceRecordSets[$i].ResourceRecords[].Value | tr -d "\"")
   if [[ $dnsname == "etcd$etcdpos.$tldname" ]]; then
     cat delete.json.template > delete$i.json
     echo "Found etcd$etcdpos.$tldname as an A record"
