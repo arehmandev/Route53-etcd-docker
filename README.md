@@ -20,3 +20,9 @@ docker run arehmandev/route53etcd abs.com Z2ZYS3N4HRA09T
 ```
 
 Tested and working as of 15/1/17
+
+Note:
+
+Example iampolicy.json and terraform scripts for Route53 zone setup, in setup you would generate the zone and inject the zone-id into the iampolicy.json before creating the role for each instance. This is how I have intended it to work in :
+
+https://github.com/arehmandev/Prototype-X (under development)
