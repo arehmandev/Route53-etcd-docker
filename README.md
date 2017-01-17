@@ -1,4 +1,6 @@
-# Docker container for Route53 synchronisation of etcd
+# Deprecated -- please see https://github.com/arehmandev/etcd-cli53
+
+## Docker container for Route53 synchronisation of etcd
 
 ## Usage:
 - This container is made to autodetect the autoscaling group, region and IPs of the autoscaling group of a 3/5/7 node etcd cluster
